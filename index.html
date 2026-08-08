@@ -60,6 +60,9 @@
     }
     .skip-link:focus { top: 1rem; }
 
+    .mobile-entry,
+    .mobile-section-nav { display: none; }
+
     .container { width: min(var(--max), calc(100% - 40px)); margin-inline: auto; }
     .eyebrow {
       margin: 0 0 .85rem;
@@ -507,6 +510,132 @@
     }
 
     @media (max-width: 700px) {
+      html.mobile-experience {
+        scroll-snap-type: y proximity;
+        scroll-padding-top: 72px;
+      }
+      html.mobile-experience main > section {
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+      }
+      body.entry-locked { overflow: hidden; }
+      .mobile-entry {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        display: grid;
+        place-items: center;
+        min-height: 100svh;
+        padding: max(28px, env(safe-area-inset-top)) 24px max(28px, env(safe-area-inset-bottom));
+        overflow: hidden;
+        isolation: isolate;
+        color: var(--cream);
+        background: #050504;
+        transition: opacity .55s ease, visibility .55s ease;
+      }
+      .mobile-entry::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -2;
+        background: url("assets/brad-brock-hero-wide.png") 78% center / cover no-repeat;
+        filter: saturate(.75) contrast(1.08);
+        transform: scale(1.025);
+      }
+      .mobile-entry::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background:
+          radial-gradient(circle at 50% 42%, rgba(0,0,0,.18), rgba(0,0,0,.78) 74%),
+          linear-gradient(180deg, rgba(5,5,4,.48), rgba(5,5,4,.9));
+      }
+      .mobile-entry.dismissed {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+      .entry-content {
+        width: min(100%, 430px);
+        text-align: center;
+      }
+      .entry-logo {
+        width: min(88vw, 410px);
+        margin: 0 auto 1.3rem;
+        filter: drop-shadow(0 8px 26px rgba(0,0,0,.65));
+      }
+      .entry-kicker {
+        margin: 0 0 1.7rem;
+        color: var(--yellow);
+        font-family: var(--display);
+        font-size: clamp(1.45rem, 6vw, 2rem);
+        letter-spacing: .08em;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+      .entry-button {
+        width: min(100%, 300px);
+        min-height: 58px;
+        border: 2px solid var(--yellow);
+        color: var(--ink);
+        background: var(--yellow);
+        font-weight: 800;
+        letter-spacing: .13em;
+        text-transform: uppercase;
+        cursor: pointer;
+        box-shadow: 0 0 30px rgba(245,220,47,.18);
+      }
+      .entry-button span:last-child { margin-left: .55rem; }
+      .entry-hint {
+        display: block;
+        margin-top: 1rem;
+        color: rgba(243,240,221,.7);
+        font-size: .72rem;
+        letter-spacing: .15em;
+        text-transform: uppercase;
+      }
+      .mobile-section-nav {
+        position: fixed;
+        right: max(8px, env(safe-area-inset-right));
+        top: 50%;
+        z-index: 90;
+        display: flex;
+        flex-direction: column;
+        gap: 11px;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-50%);
+        transition: opacity .3s ease;
+      }
+      body.mobile-entered .mobile-section-nav {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .section-dot {
+        width: 18px;
+        height: 18px;
+        padding: 5px;
+        border: 0;
+        border-radius: 50%;
+        background: transparent;
+        cursor: pointer;
+      }
+      .section-dot::before {
+        content: "";
+        display: block;
+        width: 8px;
+        height: 8px;
+        border: 1px solid rgba(245,220,47,.72);
+        border-radius: 50%;
+        background: rgba(10,10,8,.6);
+        box-shadow: 0 1px 5px rgba(0,0,0,.7);
+        transition: background .2s ease, transform .2s ease;
+      }
+      .section-dot.active::before {
+        background: var(--yellow);
+        transform: scale(1.25);
+      }
       .container { width: min(var(--max), calc(100% - 28px)); }
       .brand span { display: none; }
       .hero { min-height: 820px; align-items: start; }
@@ -540,6 +669,24 @@
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to main content</a>
+
+  <div class="mobile-entry" id="mobile-entry" role="dialog" aria-modal="true" aria-labelledby="entry-title">
+    <div class="entry-content">
+      <img class="entry-logo" src="assets/brad-brock-logo-entry-mobile.png" alt="Brad Brock">
+      <p class="entry-kicker" id="entry-title">One man. Full band. No tracks.</p>
+      <button class="entry-button" id="enter-site" type="button"><span>Tap to enter</span><span aria-hidden="true">&#8595;</span></button>
+      <small class="entry-hint">Swipe to explore</small>
+    </div>
+  </div>
+
+  <nav class="mobile-section-nav" id="mobile-section-nav" aria-label="Mobile section navigation">
+    <button class="section-dot active" type="button" data-target="top" aria-label="Go to home"></button>
+    <button class="section-dot" type="button" data-target="book" aria-label="Go to booking"></button>
+    <button class="section-dot" type="button" data-target="shows" aria-label="Go to shows"></button>
+    <button class="section-dot" type="button" data-target="about" aria-label="Go to about Brad"></button>
+    <button class="section-dot" type="button" data-target="merch" aria-label="Go to merchandise"></button>
+    <button class="section-dot" type="button" data-target="contact" aria-label="Go to contact"></button>
+  </nav>
 
   <header class="site-header">
     <div class="container nav-wrap">
@@ -781,6 +928,55 @@
       toggle.setAttribute('aria-expanded', 'false');
       toggle.textContent = '☰';
     }));
+
+    const mobileQuery = window.matchMedia('(max-width: 700px)');
+    const mobileEntry = document.getElementById('mobile-entry');
+    const enterButton = document.getElementById('enter-site');
+    const sectionDots = [...document.querySelectorAll('.section-dot')];
+    const mobileSections = sectionDots
+      .map(dot => document.getElementById(dot.dataset.target))
+      .filter(Boolean);
+
+    const prepareMobileEntry = () => {
+      if (mobileQuery.matches && !mobileEntry.classList.contains('dismissed')) {
+        document.body.classList.add('entry-locked');
+      } else if (!mobileQuery.matches) {
+        document.body.classList.remove('entry-locked');
+      }
+    };
+
+    enterButton.addEventListener('click', async () => {
+      const root = document.documentElement;
+      const requestFullscreen = root.requestFullscreen || root.webkitRequestFullscreen;
+      if (requestFullscreen) {
+        try { await requestFullscreen.call(root); } catch (error) { /* Fullscreen is optional. */ }
+      }
+      mobileEntry.classList.add('dismissed');
+      document.body.classList.remove('entry-locked');
+      document.body.classList.add('mobile-entered');
+      root.classList.add('mobile-experience');
+      window.scrollTo(0, 0);
+    });
+
+    sectionDots.forEach(dot => dot.addEventListener('click', () => {
+      const target = document.getElementById(dot.dataset.target);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }));
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter(entry => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visible) return;
+      sectionDots.forEach(dot => {
+        const active = dot.dataset.target === visible.target.id;
+        dot.classList.toggle('active', active);
+        dot.setAttribute('aria-current', active ? 'true' : 'false');
+      });
+    }, { rootMargin: '-28% 0px -52% 0px', threshold: [0, .15, .4] });
+    mobileSections.forEach(section => sectionObserver.observe(section));
+    mobileQuery.addEventListener?.('change', prepareMobileEntry);
+    prepareMobileEntry();
 
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
