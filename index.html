@@ -1,0 +1,819 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Brad Brock | One Man Band — a 100% live, full-band sound for bars, restaurants, festivals, private events and cruise lines.">
+  <meta name="theme-color" content="#0a0a08">
+  <title>Brad Brock | One Man Band</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0a0a08;
+      --ink-2: #11110e;
+      --panel: #171713;
+      --line: #323228;
+      --yellow: #f5dc2f;
+      --yellow-hot: #ffe84b;
+      --cream: #f3f0dd;
+      --muted: #aaa996;
+      --display: "Bebas Neue", Impact, sans-serif;
+      --body: "DM Sans", system-ui, sans-serif;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+    body {
+      margin: 0;
+      color: var(--cream);
+      background: var(--ink);
+      font-family: var(--body);
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: .22;
+      background-image: repeating-linear-gradient(0deg, transparent 0, transparent 3px, rgba(255,255,255,.018) 4px);
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; }
+    button, input, select, textarea { font: inherit; }
+    ::selection { color: var(--ink); background: var(--yellow); }
+
+    .skip-link {
+      position: fixed;
+      left: 1rem;
+      top: -5rem;
+      z-index: 999;
+      padding: .75rem 1rem;
+      color: var(--ink);
+      background: var(--yellow);
+      font-weight: 700;
+    }
+    .skip-link:focus { top: 1rem; }
+
+    .container { width: min(var(--max), calc(100% - 40px)); margin-inline: auto; }
+    .eyebrow {
+      margin: 0 0 .85rem;
+      color: var(--yellow);
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+    .section-title {
+      margin: 0;
+      max-width: 790px;
+      font-family: var(--display);
+      font-size: clamp(3.25rem, 8vw, 7rem);
+      font-weight: 400;
+      letter-spacing: .01em;
+      line-height: .88;
+      text-transform: uppercase;
+    }
+    .section-title .yellow { color: var(--yellow); }
+    .section-intro {
+      max-width: 650px;
+      margin: 1.5rem 0 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 2vw, 1.18rem);
+    }
+    .kicker-line {
+      width: 60px;
+      height: 5px;
+      margin-bottom: 1.3rem;
+      background: var(--yellow);
+    }
+
+    .site-header {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 100;
+      border-bottom: 1px solid rgba(245,220,47,.18);
+      background: rgba(10,10,8,.9);
+      backdrop-filter: blur(14px);
+    }
+    .nav-wrap {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: baseline;
+      gap: .48rem;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .brand strong {
+      color: var(--yellow);
+      font-family: var(--display);
+      font-size: 1.75rem;
+      font-weight: 400;
+      letter-spacing: .04em;
+      line-height: 1;
+    }
+    .brand span {
+      color: var(--cream);
+      font-size: .67rem;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.55rem;
+    }
+    .nav-links a {
+      position: relative;
+      color: var(--cream);
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+    .nav-links a:not(.nav-cta)::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -.38rem;
+      width: 100%;
+      height: 2px;
+      background: var(--yellow);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform .25s ease;
+    }
+    .nav-links a:hover::after, .nav-links a:focus-visible::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+    .nav-cta { padding: .72rem 1rem; color: var(--ink) !important; background: var(--yellow); }
+    .menu-toggle {
+      display: none;
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--line);
+      color: var(--yellow);
+      background: transparent;
+      font-size: 1.3rem;
+      cursor: pointer;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      display: grid;
+      align-items: end;
+      isolation: isolate;
+      border-bottom: 7px solid var(--yellow);
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -3;
+      background: url("assets/brad-brock-portrait.png") 72% 32% / cover no-repeat;
+      filter: saturate(.88) contrast(1.08);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        linear-gradient(90deg, rgba(5,5,4,.99) 0%, rgba(5,5,4,.93) 34%, rgba(5,5,4,.22) 69%, rgba(5,5,4,.55) 100%),
+        linear-gradient(0deg, rgba(5,5,4,.96) 0%, transparent 43%);
+    }
+    .hero-content {
+      padding-top: 145px;
+      padding-bottom: clamp(54px, 9vh, 100px);
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .65rem;
+      margin-bottom: 1.4rem;
+      color: var(--yellow);
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .17em;
+      text-transform: uppercase;
+    }
+    .hero-badge::before { content: ""; width: 38px; height: 3px; background: var(--yellow); }
+    h1 {
+      width: min(800px, 75%);
+      margin: 0;
+      font-family: var(--display);
+      font-size: clamp(5.4rem, 12vw, 11.5rem);
+      font-weight: 400;
+      letter-spacing: -.015em;
+      line-height: .72;
+      text-transform: uppercase;
+    }
+    h1 .line { display: block; }
+    h1 .outline { color: transparent; -webkit-text-stroke: 2px var(--yellow); text-stroke: 2px var(--yellow); }
+    .hero-copy {
+      max-width: 620px;
+      margin: 2rem 0 0;
+      color: #d8d5c2;
+      font-size: clamp(1rem, 2vw, 1.2rem);
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2rem; }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      padding: .85rem 1.25rem;
+      border: 2px solid var(--yellow);
+      color: var(--ink);
+      background: var(--yellow);
+      font-size: .8rem;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: transform .2s ease, background .2s ease, color .2s ease;
+    }
+    .button:hover { transform: translateY(-3px); background: var(--yellow-hot); }
+    .button.ghost { color: var(--yellow); background: transparent; }
+    .button.ghost:hover { color: var(--ink); background: var(--yellow); }
+    .hero-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1px;
+      max-width: 650px;
+      margin-top: 3.1rem;
+      background: rgba(245,220,47,.35);
+    }
+    .stat { flex: 1 1 130px; padding: .95rem 1rem; background: rgba(10,10,8,.82); }
+    .stat strong { display: block; color: var(--yellow); font-family: var(--display); font-size: 2rem; font-weight: 400; line-height: 1; }
+    .stat span { color: var(--muted); font-size: .67rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+
+    .ticker { border-bottom: 1px solid var(--line); background: var(--yellow); color: var(--ink); overflow: hidden; }
+    .ticker-track {
+      width: max-content;
+      display: flex;
+      gap: 2rem;
+      padding: .75rem 0;
+      animation: ticker 28s linear infinite;
+      font-family: var(--display);
+      font-size: 1.35rem;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+    .ticker-track span::after { content: "★"; margin-left: 2rem; }
+    @keyframes ticker { to { transform: translateX(-50%); } }
+
+    section { padding: clamp(80px, 11vw, 140px) 0; }
+
+    .booking { background: var(--ink); }
+    .booking-head { display: grid; grid-template-columns: 1.15fr .85fr; align-items: end; gap: 3rem; margin-bottom: 3.2rem; }
+    .booking-head .section-intro { margin: 0; }
+    .booking-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+    .booking-card {
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      padding: 2rem;
+      background: var(--ink-2);
+      transition: background .25s ease, transform .25s ease;
+    }
+    .booking-card:hover { z-index: 1; background: #1d1d16; transform: translateY(-7px); }
+    .booking-card .num { color: var(--yellow); font-family: var(--display); font-size: 1.15rem; }
+    .booking-card h3 { margin: auto 0 1rem; font-family: var(--display); font-size: 2.2rem; font-weight: 400; line-height: .95; text-transform: uppercase; }
+    .booking-card p { margin: 0; color: var(--muted); font-size: .92rem; }
+    .booking-card .arrow { margin-top: 1.5rem; color: var(--yellow); font-size: 1.4rem; }
+
+    .live-proof { padding: 0; background: var(--yellow); color: var(--ink); }
+    .proof-grid { display: grid; grid-template-columns: 1.15fr .85fr; min-height: 720px; }
+    .proof-media {
+      min-width: 0;
+      min-height: 560px;
+      display: grid;
+      place-items: center;
+      padding: clamp(2rem, 5vw, 5rem);
+      background:
+        radial-gradient(circle at 15% 20%, rgba(44,71,255,.22), transparent 31%),
+        radial-gradient(circle at 85% 75%, rgba(255,31,74,.2), transparent 33%),
+        #080808;
+      overflow: hidden;
+      isolation: isolate;
+    }
+    .video-tv {
+      position: relative;
+      z-index: 0;
+      width: min(100%, 860px);
+      padding: 12px 12px 10px;
+      border: 1px solid #34342f;
+      border-radius: 18px;
+      background: linear-gradient(145deg, #292923, #050504 48%, #181815);
+      box-shadow:
+        -30px 0 85px rgba(42,67,255,.38),
+        30px 0 85px rgba(255,28,75,.34),
+        0 0 72px rgba(245,220,47,.3),
+        0 30px 55px rgba(0,0,0,.62),
+        inset 0 1px 0 rgba(255,255,255,.16);
+    }
+    .video-tv::before {
+      content: "";
+      position: absolute;
+      inset: -9%;
+      z-index: -1;
+      border-radius: 26px;
+      background: conic-gradient(from 220deg, #293fff, var(--yellow), #ff204f, #293fff);
+      filter: blur(42px);
+      opacity: .48;
+      animation: tv-glow 8s ease-in-out infinite alternate;
+    }
+    .video-screen {
+      position: relative;
+      z-index: 1;
+      aspect-ratio: 16 / 9;
+      border: 1px solid #3e3e37;
+      border-radius: 10px;
+      background: #000;
+      overflow: hidden;
+      box-shadow: inset 0 0 0 3px rgba(0,0,0,.8);
+    }
+    .video-screen iframe { width: 100%; height: 100%; display: block; border: 0; }
+    .tv-chrome {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: .68rem .35rem .1rem;
+      color: #8d8d80;
+      font-size: .58rem;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .tv-chrome i {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--yellow);
+      box-shadow: 0 0 12px var(--yellow);
+    }
+    @keyframes tv-glow {
+      from { opacity: .38; transform: scale(.97) rotate(-1deg); }
+      to { opacity: .58; transform: scale(1.03) rotate(1deg); }
+    }
+    .proof-copy { display: flex; flex-direction: column; justify-content: center; padding: clamp(3rem, 7vw, 7rem); }
+    .proof-copy .eyebrow { color: var(--ink); }
+    .proof-copy h2 { margin: 0; font-family: var(--display); font-size: clamp(4rem, 8vw, 8rem); font-weight: 400; line-height: .8; text-transform: uppercase; }
+    .proof-copy p { max-width: 540px; margin: 2rem 0 0; font-size: 1.08rem; }
+    .check-list { display: grid; gap: .8rem; margin: 2rem 0 0; padding: 0; list-style: none; font-weight: 700; }
+    .check-list li { display: flex; gap: .75rem; align-items: baseline; }
+    .check-list li::before { content: "→"; }
+
+    .shows { position: relative; background: var(--ink-2); overflow: hidden; }
+    .shows::after {
+      content: "LIVE";
+      position: absolute;
+      right: -1vw;
+      top: 2rem;
+      color: rgba(245,220,47,.035);
+      font-family: var(--display);
+      font-size: min(32vw, 430px);
+      line-height: 1;
+      pointer-events: none;
+    }
+    .shows .container { position: relative; z-index: 1; }
+    .shows-top { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 2rem; }
+    .calendar-shell {
+      padding: .25rem clamp(.8rem, 2vw, 1.5rem) 1rem;
+      border-top: 4px solid var(--yellow);
+      background: #0a0a0a;
+      color: var(--cream);
+    }
+    .bit-widget-initializer { min-height: 300px; display: block; }
+    .show-fallback {
+      display: none;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1.2rem 0 0;
+      border-top: 1px solid var(--line);
+    }
+    .show-fallback.visible { display: grid; }
+    .show-fallback strong { color: var(--yellow); font-family: var(--display); font-size: 1.7rem; font-weight: 400; }
+
+    .about { padding-bottom: 0; }
+    .about-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(2rem, 7vw, 7rem); align-items: start; }
+    .about-portrait { position: relative; }
+    .about-portrait img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% center; }
+    .about-portrait::after { content: ""; position: absolute; inset: auto -14px -14px auto; width: 42%; height: 35%; border-right: 8px solid var(--yellow); border-bottom: 8px solid var(--yellow); pointer-events: none; }
+    .about-copy { padding-top: 1.5rem; }
+    .about-copy .lead { margin: 2rem 0 0; color: var(--cream); font-size: clamp(1.25rem, 2.6vw, 1.75rem); line-height: 1.35; }
+    .about-copy p { color: var(--muted); }
+    .quote { margin: 2.6rem 0 0; padding: 1.8rem 0 0; border-top: 1px solid var(--line); }
+    .quote blockquote { margin: 0; color: var(--yellow); font-family: var(--display); font-size: clamp(1.75rem, 3.2vw, 2.8rem); line-height: 1.05; text-transform: uppercase; }
+    .quote cite { display: block; margin-top: 1rem; color: var(--muted); font-size: .75rem; font-style: normal; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+
+    .stage-wide { margin-top: clamp(70px, 10vw, 130px); min-height: 560px; background: linear-gradient(0deg, rgba(10,10,8,.4), rgba(10,10,8,.08)), url("assets/one-man-band-setup.jpg") center / cover no-repeat; }
+
+    .merch { background: #e9e5d2; color: var(--ink); }
+    .merch-grid { display: grid; grid-template-columns: 1.2fr .8fr; align-items: center; gap: clamp(2.5rem, 7vw, 7rem); }
+    .merch-art { position: relative; }
+    .merch-art img { box-shadow: 24px 24px 0 var(--yellow); }
+    .merch-copy .eyebrow { color: #6f6500; }
+    .merch-copy h2 { margin: 0; font-family: var(--display); font-size: clamp(4rem, 8vw, 7rem); font-weight: 400; line-height: .85; text-transform: uppercase; }
+    .merch-copy p { color: #555348; }
+    .merch-copy .button { margin-top: 1rem; }
+
+    .contact { position: relative; overflow: hidden; }
+    .contact::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(10,10,8,.97), rgba(10,10,8,.76)), url("assets/brad-brock-event-header.jpg") 68% center / cover no-repeat;
+      opacity: .9;
+    }
+    .contact .container { position: relative; }
+    .contact-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(3rem, 8vw, 8rem); align-items: start; }
+    .contact-copy .section-title { font-size: clamp(4.4rem, 10vw, 9rem); }
+    .contact-copy > p { max-width: 450px; color: #d1cdb8; }
+    .email-link { display: inline-block; margin-top: 1.2rem; color: var(--yellow); font-size: clamp(1rem, 2vw, 1.3rem); font-weight: 700; text-underline-offset: .3rem; overflow-wrap: anywhere; }
+    .contact-form { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; padding: clamp(1.4rem, 4vw, 2.6rem); border: 1px solid rgba(245,220,47,.35); background: rgba(10,10,8,.82); backdrop-filter: blur(9px); }
+    .field { display: grid; gap: .42rem; }
+    .field.full { grid-column: 1 / -1; }
+    .field label { color: var(--yellow); font-size: .69rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+    .field input, .field select, .field textarea {
+      width: 100%;
+      border: 1px solid #47463c;
+      border-radius: 0;
+      outline: 0;
+      color: var(--cream);
+      background: #151511;
+      padding: .85rem .9rem;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--yellow); box-shadow: 0 0 0 2px rgba(245,220,47,.14); }
+    .field textarea { min-height: 120px; resize: vertical; }
+    .contact-form .button { grid-column: 1 / -1; border: 0; cursor: pointer; }
+    .form-note { grid-column: 1 / -1; margin: 0; color: var(--muted); font-size: .78rem; }
+
+    footer { padding: 2rem 0; border-top: 1px solid var(--line); background: #050504; }
+    .footer-grid { display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 1.15rem; }
+    .footer-links a { color: var(--muted); font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-decoration: none; text-transform: uppercase; }
+    .footer-links a:hover { color: var(--yellow); }
+    .copyright { color: #6f6e61; font-size: .72rem; }
+
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 980px) {
+      .menu-toggle { display: inline-grid; place-items: center; }
+      .nav-links {
+        position: absolute;
+        inset: 72px 0 auto;
+        display: none;
+        align-items: stretch;
+        flex-direction: column;
+        gap: 0;
+        padding: 1rem 20px 1.5rem;
+        border-bottom: 1px solid var(--line);
+        background: rgba(10,10,8,.98);
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: .85rem .25rem; }
+      .nav-cta { margin-top: .5rem; text-align: center; }
+      .booking-head, .about-grid, .merch-grid, .contact-grid { grid-template-columns: 1fr; }
+      .booking-head .section-intro { margin-top: 0; }
+      .booking-grid { grid-template-columns: 1fr 1fr; }
+      .proof-grid { grid-template-columns: 1fr; }
+      .proof-media { min-height: auto; padding: clamp(3rem, 8vw, 5rem); }
+      .proof-copy { order: -1; }
+      .stage-wide { min-height: 48vw; }
+      .merch-art { order: 2; }
+    }
+
+    @media (max-width: 700px) {
+      .container { width: min(var(--max), calc(100% - 28px)); }
+      .brand span { display: none; }
+      .hero { min-height: 820px; }
+      .hero::before { background-position: 61% center; }
+      .hero::after { background: linear-gradient(0deg, rgba(5,5,4,.99) 6%, rgba(5,5,4,.88) 52%, rgba(5,5,4,.2) 92%); }
+      .hero-content { padding-top: 330px; padding-bottom: 48px; }
+      h1 { width: 100%; font-size: clamp(5rem, 25vw, 8rem); }
+      .hero-copy { max-width: 92%; }
+      .booking-grid { grid-template-columns: 1fr; }
+      .booking-card { min-height: 240px; }
+      .shows-top, .footer-grid { align-items: flex-start; flex-direction: column; }
+      .shows-top { display: flex; }
+      .calendar-shell { margin-inline: -14px; }
+      .show-fallback { grid-template-columns: 1fr; gap: .4rem; }
+      .contact-form { grid-template-columns: 1fr; }
+      .field, .field.full { grid-column: 1; }
+      .proof-media { padding: 3rem 1.2rem; }
+      .stage-wide { min-height: 70vw; background-position: 48% center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="#top" aria-label="Brad Brock One Man Band home">
+        <strong>Brad Brock</strong><span>One Man Band</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Open menu">☰</button>
+      <nav class="nav-links" id="main-nav" aria-label="Main navigation">
+        <a href="#book">Book</a>
+        <a href="#shows">Shows</a>
+        <a href="#about">About</a>
+        <a href="#merch">Merch</a>
+        <a class="nav-cta" href="#contact">Check availability</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top" aria-label="Brad Brock One Man Band">
+      <div class="container hero-content">
+        <div class="hero-badge">Treasure Coast · South Florida</div>
+        <h1><span class="line">One Man.</span><span class="line outline">Full Band.</span></h1>
+        <p class="hero-copy">Guitar, foot drums, bass-style effects, harmonica, vocals and live harmonies — built into one high-energy show with no tracks and no dead air.</p>
+        <div class="hero-actions">
+          <a class="button" href="#contact">Book Brad</a>
+          <a class="button ghost" href="#shows">See live dates</a>
+        </div>
+        <div class="hero-stats" aria-label="Performance highlights">
+          <div class="stat"><strong>20+</strong><span>Years performing</span></div>
+          <div class="stat"><strong>0</strong><span>Backing tracks</span></div>
+          <div class="stat"><strong>100%</strong><span>Live music</span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track">
+        <span>Bars & Restaurants</span><span>Festivals</span><span>Private Events</span><span>Corporate Events</span><span>Cruise Lines</span>
+        <span>Bars & Restaurants</span><span>Festivals</span><span>Private Events</span><span>Corporate Events</span><span>Cruise Lines</span>
+      </div>
+    </div>
+
+    <section class="booking" id="book">
+      <div class="container">
+        <div class="booking-head reveal">
+          <div>
+            <p class="eyebrow">The right show for the room</p>
+            <h2 class="section-title">Big sound.<br><span class="yellow">Small footprint.</span></h2>
+          </div>
+          <p class="section-intro">A polished, self-contained show that scales from an easygoing waterfront set to a high-energy festival stage — with the presence of a band and the simplicity of one professional entertainer.</p>
+        </div>
+        <div class="booking-grid reveal">
+          <article class="booking-card"><span class="num">01</span><h3>Bars &<br>Restaurants</h3><p>Flexible volume, broad crowd appeal and a tight footprint made for patios, tiki bars and dining rooms.</p><span class="arrow">→</span></article>
+          <article class="booking-card"><span class="num">02</span><h3>Festivals &<br>Community</h3><p>A visually memorable setup and energetic full-band sound that translates from first note to last row.</p><span class="arrow">→</span></article>
+          <article class="booking-card"><span class="num">03</span><h3>Private &<br>Corporate</h3><p>Professional, adaptable entertainment for celebrations, company events, resorts and destination gatherings.</p><span class="arrow">→</span></article>
+          <article class="booking-card"><span class="num">04</span><h3>Cruise &<br>Resort</h3><p>Experienced, guest-friendly live entertainment with a versatile catalog and a show built to travel.</p><span class="arrow">→</span></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="live-proof" aria-label="100 percent live performance">
+      <div class="proof-grid">
+        <div class="proof-media">
+          <div class="video-tv reveal">
+            <div class="video-screen">
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/m3hkCn3WdGQ?rel=0&playsinline=1"
+                title="Brad Brock One Man Band demo reel"
+                loading="lazy"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+            </div>
+            <div class="tv-chrome" aria-hidden="true"><span>Brad Brock · Demo Reel</span><i></i></div>
+          </div>
+        </div>
+        <div class="proof-copy reveal">
+          <p class="eyebrow">Everything happens live</p>
+          <h2>No tracks.<br>No tricks.</h2>
+          <p>Brad builds the whole sound in real time — guitar, drums, bass-style effects, harmonica, lead vocals and harmonies — for a show that feels immediate, human and bigger than one person.</p>
+          <ul class="check-list"><li>Pop, rock, blues, reggae and originals</li><li>Flexible for listening rooms or party crowds</li><li>Professional, self-contained setup</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="shows" id="shows">
+      <div class="container">
+        <div class="shows-top reveal">
+          <div>
+            <p class="eyebrow">Catch the show</p>
+            <h2 class="section-title">Where Brad<br><span class="yellow">plays next.</span></h2>
+          </div>
+        </div>
+        <div class="calendar-shell reveal">
+          <a class="bit-widget-initializer"
+             data-artist-name="id_936150"
+             data-events-to-display=""
+             data-background-color="rgba(10,10,10,1)"
+             data-separator-color="#DDDDDD"
+             data-text-color="rgba(255,255,255,1)"
+             data-font="Arial"
+             data-auto-style="true"
+             data-button-label-capitalization="uppercase"
+             data-header-capitalization="uppercase"
+             data-location-capitalization="capitalize"
+             data-venue-capitalization="uppercase"
+             data-display-local-dates="true"
+             data-local-dates-position="tab"
+             data-display-past-dates="true"
+             data-display-details="false"
+             data-display-lineup="false"
+             data-display-start-time="true"
+             data-social-share-icon="false"
+             data-display-limit="5"
+             data-date-format="MMM. D, YYYY"
+             data-date-orientation="horizontal"
+             data-date-border-color="#9B9B9B"
+             data-date-border-width="1px"
+             data-date-capitalization="uppercase"
+             data-date-border-radius="10px"
+             data-event-ticket-cta-size="medium"
+             data-event-custom-ticket-text=""
+             data-event-ticket-text="GET TICKETS"
+             data-event-ticket-icon="true"
+             data-event-ticket-cta-text-color="rgba(0,0,0,1)"
+             data-event-ticket-cta-bg-color="rgba(248,231,28,1)"
+             data-event-ticket-cta-border-color="rgba(0,0,0,1)"
+             data-event-ticket-cta-border-width="0px"
+             data-event-ticket-cta-border-radius="4px"
+             data-sold-out-button-text-color="#FFFFFF"
+             data-sold-out-button-background-color="#9B9B9B"
+             data-sold-out-button-border-color="#9B9B9B"
+             data-sold-out-button-clickable="false"
+             data-event-rsvp-position="left"
+             data-event-rsvp-cta-size="medium"
+             data-event-rsvp-only-show-icon="false"
+             data-event-rsvp-text="REMIND ME"
+             data-event-rsvp-icon="false"
+             data-event-rsvp-cta-text-color="rgba(0,0,0,1)"
+             data-event-rsvp-cta-bg-color="rgba(248,231,28,1)"
+             data-event-rsvp-cta-border-color="rgba(0,0,0,1)"
+             data-event-rsvp-cta-border-width="1px"
+             data-event-rsvp-cta-border-radius="4px"
+             data-follow-section-position="hidden"
+             data-play-my-city-position="hidden"
+             data-language="en"
+             data-layout-breakpoint="900"
+             data-app-id="a670ee22535871def6ca873d04ae62a0"
+             data-affil-code=""
+             data-bit-logo-position="hidden"
+             data-bit-logo-color="rgba(255,255,255,1)"></a>
+          <div class="show-fallback" id="calendar-fallback" aria-live="polite">
+            <strong>No upcoming dates yet.</strong>
+            <span>Publish Brad’s next shows on Bandsintown and they’ll appear here automatically.</span>
+            <a class="button" href="https://www.bandsintown.com/a/936150-brad-brock" target="_blank" rel="noopener">View dates</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="about" id="about">
+      <div class="container about-grid">
+        <figure class="about-portrait reveal">
+          <img src="assets/brad-brock-about.jpg" alt="Brad Brock smiling in sunglasses and a white shirt" loading="lazy">
+        </figure>
+        <div class="about-copy reveal">
+          <p class="eyebrow">About Brad</p>
+          <h2 class="section-title">A working musician.<br><span class="yellow">A one-of-a-kind show.</span></h2>
+          <p class="lead">Brad Brock is a South Florida singer-songwriter and one man band entertainer whose live show turns a compact setup into a full-band experience.</p>
+          <p>His mix of pop, rock, blues, reggae and original music is arranged for real-time performance — no loop pedals, no pre-recorded backing tracks, and no waiting around between songs. The result is polished enough for resorts and corporate events, lively enough for festivals and bars, and unmistakably live.</p>
+          <p>Over more than two decades of performing, Brad has played venues and events across Florida and brought his show aboard cruise ships around the world.</p>
+          <div class="quote">
+            <blockquote>“Just plain great. Great player, singer & entertainer.”</blockquote>
+            <cite>Vince Flora · Double Roads Tavern, Jupiter FL</cite>
+          </div>
+        </div>
+      </div>
+      <div class="stage-wide" role="img" aria-label="Brad Brock's compact one man band stage setup at Square Grouper"></div>
+    </section>
+
+    <section class="merch" id="merch">
+      <div class="container merch-grid">
+        <div class="merch-art reveal"><img src="assets/brad-brock-merch.png" alt="Brad Brock One Man Band shirts and hats on a merch table" loading="lazy"></div>
+        <div class="merch-copy reveal">
+          <p class="eyebrow">Official gear</p>
+          <h2>Take the<br>show home.</h2>
+          <p>Shirts, hats and fan-favorite designs for music lovers, good-time seekers and anyone who appreciates a whole band packed into one guy.</p>
+          <a class="button" href="https://bradbrock.threadless.com" target="_blank" rel="noopener">Visit merch store ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <div class="container contact-grid">
+        <div class="contact-copy reveal">
+          <p class="eyebrow">Booking & availability</p>
+          <h2 class="section-title">Let's make<br><span class="yellow">some noise.</span></h2>
+          <p>Tell us about the venue, date and kind of event. The form opens a ready-to-send email in your mail app.</p>
+          <a class="email-link" href="mailto:booking@brockentertainment.com">booking@brockentertainment.com</a>
+        </div>
+        <form class="contact-form reveal" id="booking-form">
+          <div class="field"><label for="name">Your name</label><input id="name" name="name" autocomplete="name" required></div>
+          <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+          <div class="field"><label for="event-type">Event type</label><select id="event-type" name="event-type"><option>Bar / Restaurant</option><option>Festival</option><option>Private Event</option><option>Corporate Event</option><option>Cruise / Resort</option><option>Other</option></select></div>
+          <div class="field"><label for="date">Preferred date</label><input id="date" name="date" type="date"></div>
+          <div class="field full"><label for="venue">Venue / city</label><input id="venue" name="venue" placeholder="Venue name and location"></div>
+          <div class="field full"><label for="message">Tell us about it</label><textarea id="message" name="message" placeholder="Set length, guest count, indoor/outdoor, sound needs…"></textarea></div>
+          <button class="button" type="submit">Start booking email →</button>
+          <p class="form-note">Prefer regular email? Write to booking@brockentertainment.com.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-grid">
+      <a class="brand" href="#top"><strong>Brad Brock</strong><span>One Man Band</span></a>
+      <div class="footer-links">
+        <a href="https://www.facebook.com/bradbrockmusic" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://www.youtube.com/user/bradbrockmusic" target="_blank" rel="noopener">YouTube</a>
+        <a href="https://www.bandsintown.com/a/936150-brad-brock" target="_blank" rel="noopener">Bandsintown</a>
+        <a href="https://bradbrock.threadless.com" target="_blank" rel="noopener">Merch</a>
+      </div>
+      <span class="copyright">© <span id="year"></span> Brad Brock Music</span>
+    </div>
+  </footer>
+
+  <script charset="utf-8" src="https://widgetv3.bandsintown.com/main.min.js"></script>
+  <script>
+    const toggle = document.querySelector('.menu-toggle');
+    const nav = document.querySelector('.nav-links');
+    toggle.addEventListener('click', () => {
+      const open = nav.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+      toggle.textContent = open ? '×' : '☰';
+    });
+    nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+      nav.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.textContent = '☰';
+    }));
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: .12 });
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    document.getElementById('booking-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const data = new FormData(event.currentTarget);
+      const subject = `Booking inquiry: ${data.get('event-type') || 'Event'}${data.get('date') ? ` — ${data.get('date')}` : ''}`;
+      const body = [
+        `Name: ${data.get('name') || ''}`,
+        `Email: ${data.get('email') || ''}`,
+        `Event type: ${data.get('event-type') || ''}`,
+        `Preferred date: ${data.get('date') || 'TBD'}`,
+        `Venue / city: ${data.get('venue') || 'TBD'}`,
+        '',
+        data.get('message') || ''
+      ].join('\n');
+      window.location.href = `mailto:booking@brockentertainment.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const calendarFallback = document.getElementById('calendar-fallback');
+    const updateCalendarFallback = () => {
+      const widget = document.querySelector('.bit-widget-container');
+      const hasEvents = widget && (widget.querySelector('[class*="bit-event"]') || widget.getBoundingClientRect().height > 80);
+      calendarFallback.classList.toggle('visible', !hasEvents);
+    };
+    window.setTimeout(updateCalendarFallback, 3200);
+    window.setTimeout(updateCalendarFallback, 7000);
+  </script>
+</body>
+</html>
