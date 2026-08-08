@@ -186,7 +186,7 @@
       position: absolute;
       inset: 0;
       z-index: -3;
-      background: url("assets/brad-brock-portrait.png") 72% 32% / cover no-repeat;
+      background: url("assets/brad-brock-hero-wide.png") center center / cover no-repeat;
       filter: saturate(.88) contrast(1.08);
     }
     .hero::after {
@@ -509,10 +509,14 @@
     @media (max-width: 700px) {
       .container { width: min(var(--max), calc(100% - 28px)); }
       .brand span { display: none; }
-      .hero { min-height: 820px; }
-      .hero::before { background-position: 61% center; }
-      .hero::after { background: linear-gradient(0deg, rgba(5,5,4,.99) 6%, rgba(5,5,4,.88) 52%, rgba(5,5,4,.2) 92%); }
-      .hero-content { padding-top: 330px; padding-bottom: 48px; }
+      .hero { min-height: 820px; align-items: start; }
+      .hero::before { background-position: 78% center; }
+      .hero::after {
+        background:
+          linear-gradient(90deg, rgba(5,5,4,.98) 0%, rgba(5,5,4,.91) 68%, rgba(5,5,4,.42) 100%),
+          linear-gradient(180deg, rgba(5,5,4,.48) 0%, transparent 58%, rgba(5,5,4,.9) 100%);
+      }
+      .hero-content { padding-top: 112px; padding-bottom: 48px; }
       h1 { width: 100%; font-size: clamp(5rem, 25vw, 8rem); }
       .hero-copy { max-width: 92%; }
       .booking-grid { grid-template-columns: 1fr; }
