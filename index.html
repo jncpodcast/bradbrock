@@ -6,11 +6,11 @@
   <meta name="description" content="Brad Brock | One Man Band — a 100% live, full-band sound for bars, restaurants, festivals, private events and cruise lines.">
   <meta name="theme-color" content="#0a0a08">
   <title>Brad Brock | One Man Band</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/png" href="assets/favicon.png">
-  <link rel="apple-touch-icon" href="assets/favicon.png">
   <style>
     :root {
       --ink: #0a0a08;
@@ -886,18 +886,22 @@
         <div class="contact-copy reveal">
           <p class="eyebrow">Booking & availability</p>
           <h2 class="section-title">Let's make<br><span class="yellow">some noise.</span></h2>
-          <p>Tell us about the venue, date and kind of event. The form opens a ready-to-send email in your mail app.</p>
+          <p>Tell us about the venue, date and kind of event. Your booking request will be sent directly to Brad.</p>
           <a class="email-link" href="mailto:booking@brockentertainment.com">booking@brockentertainment.com</a>
         </div>
-        <form class="contact-form reveal" id="booking-form">
+        <form class="contact-form reveal" id="booking-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="9c9c3144-35cd-4af2-b01e-02f88e428162">
+          <input type="hidden" name="subject" value="New Brad Brock booking inquiry">
+          <input type="hidden" name="from_name" value="Brad Brock website">
+          <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none">
           <div class="field"><label for="name">Your name</label><input id="name" name="name" autocomplete="name" required></div>
           <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
           <div class="field"><label for="event-type">Event type</label><select id="event-type" name="event-type"><option>Bar / Restaurant</option><option>Festival</option><option>Private Event</option><option>Corporate Event</option><option>Cruise / Resort</option><option>Other</option></select></div>
           <div class="field"><label for="date">Preferred date</label><input id="date" name="date" type="date"></div>
           <div class="field full"><label for="venue">Venue / city</label><input id="venue" name="venue" placeholder="Venue name and location"></div>
           <div class="field full"><label for="message">Tell us about it</label><textarea id="message" name="message" placeholder="Set length, guest count, indoor/outdoor, sound needs…"></textarea></div>
-          <button class="button" type="submit">Start booking email →</button>
-          <p class="form-note">Prefer regular email? Write to booking@brockentertainment.com.</p>
+          <button class="button" type="submit">Send booking request →</button>
+          <p class="form-note" id="form-status" role="status" aria-live="polite">Prefer regular email? Write to booking@brockentertainment.com.</p>
         </form>
       </div>
     </section>
@@ -990,20 +994,37 @@
     }, { threshold: .12 });
     document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-    document.getElementById('booking-form').addEventListener('submit', (event) => {
+    document.getElementById('booking-form').addEventListener('submit', async (event) => {
       event.preventDefault();
-      const data = new FormData(event.currentTarget);
-      const subject = `Booking inquiry: ${data.get('event-type') || 'Event'}${data.get('date') ? ` — ${data.get('date')}` : ''}`;
-      const body = [
-        `Name: ${data.get('name') || ''}`,
-        `Email: ${data.get('email') || ''}`,
-        `Event type: ${data.get('event-type') || ''}`,
-        `Preferred date: ${data.get('date') || 'TBD'}`,
-        `Venue / city: ${data.get('venue') || 'TBD'}`,
-        '',
-        data.get('message') || ''
-      ].join('\n');
-      window.location.href = `mailto:booking@brockentertainment.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      const form = event.currentTarget;
+      const button = form.querySelector('button[type="submit"]');
+      const status = document.getElementById('form-status');
+      const originalLabel = button.textContent;
+      const data = new FormData(form);
+      const eventType = data.get('event-type') || 'Event';
+      const date = data.get('date');
+      data.set('subject', `Booking inquiry: ${eventType}${date ? ` — ${date}` : ''}`);
+
+      button.disabled = true;
+      button.textContent = 'Sending…';
+      status.textContent = 'Sending your booking request…';
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: data,
+          headers: { Accept: 'application/json' }
+        });
+        const result = await response.json();
+        if (!response.ok || !result.success) throw new Error(result.message || 'Submission failed');
+        form.reset();
+        status.textContent = 'Thanks! Your booking request was sent successfully.';
+      } catch (error) {
+        status.innerHTML = 'We couldn\'t send that request. Please email <a href="mailto:booking@brockentertainment.com">booking@brockentertainment.com</a>.';
+      } finally {
+        button.disabled = false;
+        button.textContent = originalLabel;
+      }
     });
 
     document.getElementById('year').textContent = new Date().getFullYear();
