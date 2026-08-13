@@ -8,11 +8,27 @@
   <title>Brad Brock | One Man Band</title>
   <link rel="icon" type="image/png" href="assets/favicon.png">
   <link rel="apple-touch-icon" href="assets/favicon.png">
+  <script>
+    (() => {
+      const heroImages = [
+        'assets/hero-website-1.jpg',
+        'assets/hero-website-2.jpg',
+        'assets/hero-website-3.jpg'
+      ];
+      let previous = -1;
+      try { previous = Number(sessionStorage.getItem('bradHeroImage')); } catch (error) { /* Storage is optional. */ }
+      const choices = heroImages.map((_, index) => index).filter(index => index !== previous);
+      const selected = choices[Math.floor(Math.random() * choices.length)];
+      try { sessionStorage.setItem('bradHeroImage', selected); } catch (error) { /* Storage is optional. */ }
+      document.documentElement.style.setProperty('--hero-image', `url("${heroImages[selected]}")`);
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
   <style>
     :root {
+      --hero-image: url("assets/hero-website-1.jpg");
       --ink: #0a0a08;
       --ink-2: #11110e;
       --panel: #171713;
@@ -191,7 +207,7 @@
       position: absolute;
       inset: 0;
       z-index: -3;
-      background: url("assets/brad-brock-hero-wide.png") center center / cover no-repeat;
+      background: var(--hero-image) center center / cover no-repeat;
       filter: saturate(.88) contrast(1.08);
     }
     .hero::after {
